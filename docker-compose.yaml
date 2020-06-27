@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile-darkstar
+      dockerfile: Dockerfile
     ports:
       - 80:80
     networks:
