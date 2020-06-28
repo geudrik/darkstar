@@ -1,0 +1,55 @@
+{
+  "order": 1,
+  "index_patterns": [
+    "darkstar-*"
+  ],
+  "aliases": {
+    "darkstar-all": {}
+  },
+  "settings": {
+    "index": {
+      "number_of_shards": "1",
+      "number_of_replicas": "0"
+    }
+  },
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "added": {
+        "type": "date"
+      },
+      "domain": {
+        "type": "keyword",
+        "properties": {
+          "domain_raw": {
+            "type": "text"
+          }
+        }
+      },
+      "tag": {
+        "type": "keyword"
+      },
+      "notes": {
+        "type": "text"
+      },
+      "ttr": {
+        "type": "integer"
+      },
+      "last_resolved": {
+        "type": "date"
+      },
+      "resolved_ips": {
+        "type": "nested",
+        "dynamic": false,
+        "properties": {
+          "timestamp": {
+            "type": "date"
+          },
+          "address": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}

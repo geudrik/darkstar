@@ -4,3 +4,6 @@ class RequestException(Exception):
         self.message = message if message else title
         self.error_code = error_code
 
+
+class DomainExists(RequestException):
+    pass
