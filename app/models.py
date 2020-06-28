@@ -1,5 +1,5 @@
 from datetime import datetime
-from elasticsearch_dsl import Document, Date, Integer, Keyword, Text, InnerDoc, Nested
+from elasticsearch_dsl import Document, Date, Integer, Boolean, Keyword, Text, InnerDoc, Nested
 
 
 class Resolution(InnerDoc):
@@ -13,8 +13,8 @@ class Domain(Document):
     tag = Keyword()
     notes = Text()
     ttr = Integer()
+    enabled = Boolean()
     last_resolved = Date()
-    alias_of = Keyword()
     resolutions = Nested(Resolution)
 
     class Index:
@@ -23,4 +23,7 @@ class Domain(Document):
     def add_resolution(self, address):
         self.resolutions.append(Resolution(address=address))
         self.last_resolved = datetime.utcnow()
-        self.save()
+
+    @property
+    def latest_resolutions(self):
+        pass

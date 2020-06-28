@@ -31,6 +31,7 @@ def exception_handler(original_function, *dargs, **dkwargs):
                     }
                 ), e.error_code
             except Exception as e:
+                print(dir(e))
                 current_app.logger.exception(e)
                 return jsonify(
                     {

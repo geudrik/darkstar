@@ -25,11 +25,12 @@ services:
       - ${ES_DATA_DIR:?err}:/usr/share/elasticsearch/data
     networks:
       - darkstar
-  redis:
-    image: redis:6.0.5
-    volumes:
-      - ${REDIS_DATA_DIR:?err}:/data
+  cerebro:
+    image: lmenezes/cerebro
     networks:
       - darkstar
+    ports:
+      - 9000:9000
+    
 networks:
   darkstar:

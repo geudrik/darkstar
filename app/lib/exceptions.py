@@ -7,3 +7,7 @@ class RequestException(Exception):
 
 class DomainExists(RequestException):
     pass
+
+
+class ClientError(RequestException):
+    pass
