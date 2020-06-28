@@ -4,6 +4,8 @@ Hat-tip to @silascutler, I finally found a use for Hivemind and decided it was j
 ### What does this do?
 It lets you add domains to a DB, and it will periodically resolve them, preserving history. Storage is backed by ElasticSearch.
 
+It's entirely API backed, so you can do what ever your heart desires with the results. Me? I need to leverage the resolutions to split-route traffic based on DNS resolution because .. raisins.
+
 ### Env Variables this image wants (defaults to a local stack)
 
 See the `example.env` file for deets
