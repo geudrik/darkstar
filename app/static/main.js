@@ -139,7 +139,11 @@ $(document).ready(function() {
     }
 
     function renderTagColumn(data) {
-        return data.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+        if(data) {
+            let tag = data.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
+            return `<i class="fa fa-tag"></i>&nbsp;&nbsp;${tag}`;
+        }
+        return '';
     }
 
     domainsTable = $('table[name=tracked-domains]').DataTable({
@@ -154,19 +158,12 @@ $(document).ready(function() {
             }
         },
         "columns": [
-            {"title": "", "data": null, "orderable": false, "render": renderToolsColumn},
-            {"title": "Tag", "data": "tag", "width": "220px", "render": renderTagColumn},
+            {"title": "", "width": "100px", "data": null, "orderable": false, "render": renderToolsColumn},
+            {"title": "Tag", "width": "100px", "data": "tag", "render": renderTagColumn},
             {"title": "Domain", "data": "domain"},
-            {"title": "Added", "data": "added", "render": renderTimestampColumn},
-            {"title": "Latest Resolution", "data": "last_resolved", "render": renderTimestampColumn},
-            {"title": "TTR", "data": "ttr", "render": (data) => {return `${data} Mins`}},
-        ],
-        "columnDefs": [
-            {"width": "100px", "targets": 0},  // 200px wide "renderToolsColumn" column
-            {"width": "200px", "targets": 1},  // 200px wide "Tag" column
-            {"width": "200px", "targets": 3},  // 200px wide "Added" column
-            {"width": "200px", "targets": 4},  // 200px wide "last_resolved" column
-            {"width": "100px", "targets": 5},  // 200px wide "TTL" column
+            {"title": "Added", "width": "200px", "data": "added", "render": renderTimestampColumn},
+            {"title": "Latest Resolution", "width": "200px", "data": "last_resolved", "render": renderTimestampColumn},
+            {"title": "TTR", "width": "100px", "data": "ttr", "render": (data) => {return `${data} Mins`}},
         ],
         //"createdRow": render_row,
         "order": [[0, 'desc']],
