@@ -5,3 +5,29 @@ body {
   padding: 3rem 1.5rem;
   text-align: center;
 }
+
+
+
+.bg-dark {
+  background-color: #393e46 !important;
+}
+
+body {
+  background-color: #222831 !important;
+  color: #eeeeee !important;
+}
+
+.table td, .table th {
+  border-top-color:#393e46 !important;
+}
+
+pre,
+.table,
+.table-hover tbody tr:hover {
+  color: #eeeeee !important;
+}
+
+.card {
+  background-color: #393e46 !important;
+}
+

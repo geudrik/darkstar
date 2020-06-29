@@ -98,23 +98,19 @@ def add_new_domain(domain):
         raise ClientError("The supplied domain doesn't resolve. Refusing to add to tracking")
 
     # New domain instance, and add all resolutions for it
-    new_domain = Domain(added=datetime.utcnow(), domain=domain, tag=tag, ttr=ttr, notes=notes, enabled=enabled)
-    [new_domain.add_resolution(ip) for ip in ipaddrlist]
+    ts = datetime.utcnow()
+    new_domain = Domain(added=ts, domain=domain, tag=tag, ttr=ttr, notes=notes, enabled=enabled)
+    [new_domain.add_resolution(ip, ts) for ip in ipaddrlist]
     new_domain.save()
 
     return jsonify(new_domain.to_dict())
 
-
-@app.route("/api/health/es", methods=['GET'], strict_slashes=False)
+@app.route("/api/domain/<domain>", methods=['PUT'], strict_slashes=False)
 @exception_handler
-def health_check_es():
-    return '', 200
-
-
-@app.route("/api/health/redis", methods=['GET'], strict_slashes=False)
-@exception_handler
-def health_check_redis():
-    return '', 200
+def update_domain(domain):
+    """ Update a domain
+    """
+    raise NotImplemented
 
 
 @app.route("/api/domain/<domain>", methods=['DELETE'], strict_slashes=False)
@@ -129,6 +125,7 @@ def remove_domain(domain):
 @exception_handler
 def current_domain_resolutions():
     """ Return all of the current domain resolutions
+    TODO: Write the @paginate decorator so DataTables doesn't shit itself with huge amts of data
     """
     s = Search(index="domain_resolutions").query('match_all')
     print(s.to_dict())

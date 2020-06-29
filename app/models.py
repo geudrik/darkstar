@@ -20,9 +20,11 @@ class Domain(Document):
     class Index:
         name = "domain_resolutions"
 
-    def add_resolution(self, address):
-        self.resolutions.append(Resolution(address=address))
-        self.last_resolved = datetime.utcnow()
+    def add_resolution(self, address, timestamp):
+        self.resolutions.append(Resolution(address=address, timestamp=timestamp))
+
+        # Ensure that the parent objects always has an up to date timestamp for when we last successfully resolved
+        self.last_resolved = timestamp
 
     @property
     def latest_resolutions(self):
