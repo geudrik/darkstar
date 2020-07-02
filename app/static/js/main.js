@@ -7,6 +7,11 @@ function api_failure(xhr) {
 
 $(document).ready(function() {
 
+    // Enable tooltips
+    $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+    });
+
     domainsTable = $('table[name=tracked-domains]').DataTable({
         "processing": true,
         "serverSide": false,
@@ -24,7 +29,7 @@ $(document).ready(function() {
             {"title": "Domain", "data": "domain"},
             {"title": "Added", "width": "200px", "data": "added", "render": renderTimestampColumn},
             {"title": "Latest Resolution", "width": "200px", "data": "last_resolved", "render": renderTimestampColumn},
-            {"title": "TTR", "width": "100px", "data": "ttr", "render": (data) => {return `${data} Mins`}},
+            {"title": "TTR (mins)", "width": "100px", "data": "ttr"},
         ],
         //"createdRow": render_row,
         "order": [[0, 'desc']],
