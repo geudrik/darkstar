@@ -8,29 +8,6 @@ services:
       - 80:80
     networks:
       - darkstar
-  es:
-    image: elasticsearch:7.8.0
-    environment:
-      - node.name=es
-      - cluster.name=es-darkstar
-      - discovery.seed_hosts=es
-      - cluster.initial_master_nodes=es
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - ${ES_DATA_DIR:?err}:/usr/share/elasticsearch/data
-    networks:
-      - darkstar
-  cerebro:
-    image: lmenezes/cerebro
-    networks:
-      - darkstar
-    ports:
-      - 9000:9000
     
 networks:
   darkstar:
