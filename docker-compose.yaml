@@ -1,11 +1,43 @@
 version: '3'
 services:
+
   web:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-ui
     ports:
       - 80:80
+    environment:
+      - LOG_LEGEL=${LOG_LEVEL:?err}
+      - ES_HOST=${ES_HOST:?err}
+      - ES_PORT=${ES_PORT:?err}
+    networks:
+      - darkstar
+
+  broker:
+    build:
+      context: .
+      dockerfile: Dockerfile-broker
+    environment:
+      - LOG_LEGEL=${LOG_LEVEL:?err}
+      - REDIS_HOST=${REDIS_HOST:?err}
+      - REDIS_PORT=${REDIS_PORT:?err}
+      - ES_HOST=${ES_HOST:?err}
+      - ES_PORT=${ES_PORT:?err}
+    networks:
+      - darkstar
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    deploy:
+      mode: replicated
+      replicas: 3
+    environment:
+      - LOG_LEGEL=${LOG_LEVEL:?err}
+      - REDIS_HOST=${REDIS_HOST:?err}
+      - REDIS_PORT=${REDIS_PORT:?err}
     networks:
       - darkstar
     
