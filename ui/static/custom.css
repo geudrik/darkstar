@@ -162,17 +162,46 @@ pre,
 
 
 /* DataTables nav colors */
+.paginate_button:disabled,
 .page-item.disabled .page-link {
-  color: #00fa92;
+  color: #546f7a;
+  text-decoration: line-through;
   background-color: #1e2a2f;
   border-color: #3d5560;
 }
 
+.page-link:hover,
 .page-item.active .page-link {
   color: #1e2a2f;
   background-color: #01fa92;
   border-color: #01fa92;
 }
+
+.page-link {
+  color: #01fa92;
+  background-color: #1e2a2f;
+  border-color: #01fa92;
+}
+
+
+
+.card {
+  background-color: #1e2a2f !important;
+  border-color: #3d5560 !important;
+}
+
+.card .form-control, 
+.card .form-control:focus, 
+.card .form-control:disabled, 
+.card .input-group-text, 
+.card .custom-select
+{
+  border-color: #3d5560;
+  color: #0afa92;
+}
+
+
+
 
 
 

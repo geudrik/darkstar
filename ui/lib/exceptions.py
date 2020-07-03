@@ -11,3 +11,11 @@ class DomainExists(RequestException):
 
 class ClientError(RequestException):
     pass
+
+
+class ServerError(RequestException):
+    pass
+
+
+class DomainNotFound(RequestException):
+    pass

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" 
+        integrity="sha256-aAr2Zpq8MZ+YA/D6JtRD3xtrwpEz2IqOS+pWD/7XKIw=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css" 
+        integrity="sha256-F+DaKAClQut87heMIC6oThARMuWne8+WzxIDT7jXuPA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" 
+        integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" 
+        integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="/static/custom.css" />
+    <title>Darkstar: A Perpetual Domain Name Resolver</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Darkstar</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="javascript:modalAddDomain();">Add Domain</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <main role="main" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <div class="input-group mr-3">
+                                            <div class="input-group-prepend" data-toggle='tooltip' data-placement='top' title='Controls whether or not to show/search over enabled/disabled domains'>
+                                                <label class="input-group-text"><i class="fa fa-filter"></i></label>
+                                            </div>
+                                            <select class="custom-select" id="tableOptsEnabledFilter">
+                                                <option selected value='all'>Show and filter All domains</option>
+                                                <option value='enabled'>Only show and filter Enabled domains</option>
+                                                <option value='disabled'>Only show and filter Disabled domains</option>
+                                            </select>
+                                        </div>
+                    
+                                        <div class="input-group mr-3">
+                                            <div class="input-group-prepend" data-toggle='tooltip' data-placement='top' title='Change the length of each page in the domains table'>
+                                                <label class="input-group-text"><i class="fa fa-ruler-vertical"></i></label>
+                                            </div>
+                                            <select class="custom-select" id="tableOptsPageLength">
+                                                <option selected value='10'>10</option>
+                                                <option value="20">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <form class="form-inline my-2 my-lg-0 float-right">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend" data-toggle='tooltip' data-placement='top' title='Filtering is done in an ES Context. If searching is not working as you think it should, you likely need to include a splat (*) at the beginning of your filter string'>
+                                                <label class="input-group-text"><i class="fa fa-question"></i></label>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Search" id="domainsTableFilterSearchInput" size="50"/>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success" type="button" id="domainsTableFilterSearchButton"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-sm" name="tracked-domains" />
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" 
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" 
+        integrity="sha256-/ijcOLwFf26xEYAjW75FizKVo5tnTYiQddPZoLUHHZ8=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js" 
+        integrity="sha256-OFRAJNoaD8L3Br5lglV7VyLRf0itmoBzWUoM+Sji4/8=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js" 
+        integrity="sha256-L4cf7m/cgC51e7BFPxQcKZcXryzSju7VYBKJLOKPHvQ=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/dataTables.bootstrap4.min.js" 
+        integrity="sha256-A8HQsn/9uXt+VRkaLhWtj7KMC8bYT76r3IB7iTqDtLo=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js" 
+        integrity="sha256-sfG8c9ILUB8EXQ5muswfjZsKICbRIJUG/kBogvvV5sY=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" 
+        integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" 
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" 
+        integrity="sha256-HkXXtFRaflZ7gjmpjGQBENGnq8NIno4SDNq/3DbkMgo=" 
+        crossorigin="anonymous"></script>
+
+    <!-- Darkstar specific shit -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/listeners.js"></script>
+    <script src="/static/js/modals.js"></script>
+    <script src="/static/js/datatables_renderers.js"></script>
+
+</body>
+</html>

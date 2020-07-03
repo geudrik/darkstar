@@ -1,13 +1,13 @@
 function modalAddEditDomainRender(domain=false, tag=false, ttr=false, notes=false) {
     let d = domain ? `value="${domain}"` : '';
     let t = tag ? `value="${tag}"` : '';
-    let n = notes ? `value="${notes}"` : '';
+    let n = notes ? `${notes}` : '';
     return `
         <form>
             <div class="form-row">
-                <div class="col-sm-6">
+                <div class="col-sm-6" ${domain && "data-toggle='tooltip' data-placement='bottom' title='Cannot alter a domain name. Remove and re-add if you made a mistake'"}>
                     <label>Domain</label>
-                    <input type="email" class="form-control" id="newInputDomain" placeholder="Domain to monitor" ${d}>
+                    <input type="email" class="form-control" id="newInputDomain" placeholder="Domain to monitor" ${d} ${domain ? "disabled" : ''}>
                     <small class="form-text text-muted">The domain to be perpetually resolved. Must be unique in system</small>
                 </div>
                 <div class="col-sm-3">
@@ -31,10 +31,10 @@ function modalAddEditDomainRender(domain=false, tag=false, ttr=false, notes=fals
                     <small class="form-text text-muted">Resolve frequency</small>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row mt-3">
                 <div class="col-sm-12 form-group">
                     <label>Notes</label>
-                    <textarea class="form-control" id="newInputDomainNotes" rows="4" ${n}></textarea>
+                    <textarea class="form-control" id="newInputDomainNotes" rows="4">${n}</textarea>
                     <small class="form-text text-muted">Any additional information you'd like to track. Markdown is supported.</small>
                 </div>
                 <div class="col-sm-3 my-1">
@@ -45,7 +45,7 @@ function modalAddEditDomainRender(domain=false, tag=false, ttr=false, notes=fals
     `
 }
 
-function modalAddEditSubmitCallback() {
+function modalAddEditSubmitCallback(update=False) {
     
     let domainRef = $("#newInputDomain");
     let tag = $('#newInputDomainTag').val();
@@ -59,7 +59,7 @@ function modalAddEditSubmitCallback() {
     }
 
     $.ajax({
-        method: "POST",
+        method: `${update ? 'PUT' : 'POST'}`,
         url: `/api/domain/${domainRef.val()}`,
         dataType: 'json',
         contentType: 'application/json',
@@ -93,9 +93,9 @@ function modalAddDomain() {
                 className: 'btn-default',
             },
             ok: {
-                label: "Add Domain(s)",
+                label: "Add Domain",
                 className: 'btn-success',
-                callback: modalAddEditSubmitCallback
+                callback: () => (modalAddEditSubmitCallback(update=false))
             }
         }
     })
@@ -112,9 +112,9 @@ function modalEditDomain(row_data) {
                 className: 'btn-default'
             },
             ok: {
-                label: "Add Domain(s)",
+                label: "Update Domain",
                 className: 'btn-success',
-                callback: modalAddEditSubmitCallback
+                callback: () => (modalAddEditSubmitCallback(update=true))
             }
         }
     })
